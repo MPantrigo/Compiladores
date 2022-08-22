@@ -18,6 +18,7 @@ from AnalisadorLexicoPython.ast.CommandAtribuicao import CommandAtribuicao
 from AnalisadorLexicoPython.ast.CommandDecisao import CommandDecisao
 from AnalisadorLexicoPython.datastructures.IsiEnumType import IsiEnumType
 from AnalisadorLexicoPython.parser.IsiParserHelper import IsiParserHelper
+from AnalisadorLexicoPython.ast.CommandRepeticao import CommandRepeticao
 
 
 parseHelper = IsiParserHelper()
@@ -115,6 +116,15 @@ class IsiLangListener(ParseTreeListener):
 
     # Exit a parse tree produced by IsiLangParser#cmdselecao.
     def exitCmdselecao(self, ctx:IsiLangParser.CmdselecaoContext):
+        pass
+
+
+    # Enter a parse tree produced by IsiLangParser#cmdrepeticao.
+    def enterCmdrepeticao(self, ctx:IsiLangParser.CmdrepeticaoContext):
+        pass
+
+    # Exit a parse tree produced by IsiLangParser#cmdrepeticao.
+    def exitCmdrepeticao(self, ctx:IsiLangParser.CmdrepeticaoContext):
         pass
 
 

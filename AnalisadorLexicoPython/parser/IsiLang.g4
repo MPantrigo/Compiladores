@@ -14,6 +14,7 @@ from AnalisadorLexicoPython.ast.CommandAtribuicao import CommandAtribuicao
 from AnalisadorLexicoPython.ast.CommandDecisao import CommandDecisao
 from AnalisadorLexicoPython.datastructures.IsiEnumType import IsiEnumType
 from AnalisadorLexicoPython.parser.IsiParserHelper import IsiParserHelper
+from AnalisadorLexicoPython.ast.CommandRepeticao import CommandRepeticao
 
 
 parseHelper = IsiParserHelper()
@@ -31,6 +32,7 @@ def GetIsiParseHelper(self):
 prog	: 'programa' decl bloco  'fimprog;'
            {
 parseHelper.program.setVarTable(parseHelper.symbolTable)
+parseHelper.verificaVariavelUtilizada()
 parseHelper.program.setComandos(parseHelper.stack.pop())       	 
            } 
 		;
@@ -80,7 +82,8 @@ parseHelper.stack.append(curThread);
 cmd		:  cmdleitura  
  		|  cmdescrita 
  		|  cmdattrib
- 		|  cmdselecao  
+ 		|  cmdselecao
+        |  cmdrepeticao  
 		;
 		
 cmdleitura	: 'leia' AP
@@ -131,9 +134,12 @@ parseHelper.stack[-1].append(cmd)
 			
 			
 cmdselecao  :  'se' AP
-                    ID    {parseHelper.exprDecision = self._input.LT(-1).text }
+                    ID    {
+parseHelper.exprDecision = self._input.LT(-1).text 
+parseHelper.setUsedVariable(self._input.LT(-1).text)
+}
                     OPREL {parseHelper.exprDecision += self._input.LT(-1).text }
-                    (ID | NUMBER) {parseHelper.exprDecision += self._input.LT(-1).text }
+                    (ID {parseHelper.setUsedVariable(self._input.LT(-1).text)}| NUMBER) {parseHelper.exprDecision += self._input.LT(-1).text }
                     FP 
                     ACH 
                     { 
@@ -156,25 +162,55 @@ parseHelper.stack.append(curThread)
                    	FCH
                    	{
 parseHelper.listaFalse = parseHelper.stack.pop()
-cmd = CommandDecisao(parseHelper.exprDecision, parseHelper.listaTrue, parseHelper.listaFalse)
-parseHelper.stack[-1].append(cmd)
                    	}
                    )?
+                   {
+cmd = CommandDecisao(parseHelper.exprDecision, parseHelper.listaTrue, parseHelper.listaFalse)
+parseHelper.stack[-1].append(cmd)
+                   }
+            ;
+
+cmdrepeticao  :  'enquanto' AP
+                    ID    {
+parseHelper.exprDecision = self._input.LT(-1).text
+parseHelper.setUsedVariable(self._input.LT(-1).text)
+ }
+                    OPREL {parseHelper.exprDecision += self._input.LT(-1).text }
+                    (ID {parseHelper.setUsedVariable(self._input.LT(-1).text)}| NUMBER) {parseHelper.exprDecision += self._input.LT(-1).text }
+                    FP 
+                    ACH 
+                    { 
+curThread = []
+parseHelper.stack.append(curThread)
+                    }
+                    (cmd)+ 
+                    
+                    FCH 
+                    {
+parseHelper.listarepeticao = parseHelper.stack.pop()
+cmd = CommandRepeticao(parseHelper.exprDecision, parseHelper.listarepeticao)
+parseHelper.stack[-1].append(cmd)
+                    } 
             ;
 			
-expr		:  termo ( 
-	             OP  {parseHelper.exprContent += self._input.LT(-1).text}
+expr		: termo ( 
+	             OP  {
+parseHelper.exprContent += self._input.LT(-1).text
+}
 	            termo
 	            )*
 			;
 			
-termo		: ID { 
+termo		: ID {     
 parseHelper.verificaID(self._input.LT(-1).text)
+parseHelper.verificaTipo(parseHelper.exprID, self._input.LT(-1).text)
 parseHelper.exprContent += self._input.LT(-1).text
+parseHelper.setUsedVariable(self._input.LT(-1).text)
                  } 
             | 
               NUMBER
               {
+parseHelper.isNumber(parseHelper.exprID)                
 parseHelper.exprContent += self._input.LT(-1).text
               }
 			;

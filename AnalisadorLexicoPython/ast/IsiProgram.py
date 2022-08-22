@@ -11,12 +11,27 @@ class IsiProgram:
         self.__varTable = varTable
     
     def generateTarget(self):
-        str = "def main(): \n\t"
+        str = "def main(): \n"
         for cmd in self.__comandos:
-            str += cmd.generatePythonCode() + "\n"
+            str += cmd.indent(cmd.generatePythonCode(),4) + "\n"
 
         try:
             text_file = open("mainPython.py", 'w')
+            text_file.write(str)
+            text_file.close()
+        except:
+            traceback.print_exc()
+
+        str = "import java.util.Scanner;\n\n"
+        str += "public class MainClass{\n"
+        str += "    public static void main(String args[]){\n"
+        str += "        Scanner _key = new Scanner(System.in);\n"
+        for cmd in self.__comandos:
+            str += cmd.indent(cmd.generateJavaCode(),8) + "\n"
+        str += "    }\n"
+        str += "}"
+        try:
+            text_file = open("mainJava.java", 'w')
             text_file.write(str)
             text_file.close()
         except:

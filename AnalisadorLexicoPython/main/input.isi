@@ -1,21 +1,29 @@
 programa
 
-  numero a, b;
+  numero a, b, c;
   texto  t1;
 
   leia(a);
   leia(b);
   
+  c = 10;
   a = 1 + 2 * 3 / b;
   
 
   se ( a > b ) {
      escreva (a);
+     se (c > b){
+      escreva(b);
+     }
   }
-  senao {
-     escreva (b);
+
+  enquanto (a > b) {
+      a = a + 1;
+      enquanto(b < c){
+         b = b + 1;
+      }
+
   }
-  
   
 
 fimprog;

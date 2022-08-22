@@ -8,19 +8,30 @@ class CommandDecisao(AbstractCommand):
 
     def __str__(self):
         return "CommandDecisao [condition=" + self.condition + ", listaTrue=" + "".join(str(i) for i in self.lt) + ", listaFalse=" + "".join(str(i) for i in self.lf)+ "]";
-        
-    def generatePythonCode(self):
+
+    def generateJavaCode(self):
         str = "if ("+self.condition+") {\n"
         for cmd in self.lt:
-            str += cmd.generatePythonCode()
+            str += self.indent(cmd.generateJavaCode(),4)
 
-        str += "}"
+        str += "}\n"
 
         if len(self.lf) > 0:
-            str += "else {\n}"
+            str += "else {\n"
             for cmd in self.lf:
-                str += cmd.generatePythonCode()
+                str += self.indent(cmd.generateJavaCode(),4)
             str += "}\n"
+        return str 
+
+    def generatePythonCode(self):
+        str = "if "+self.condition+":\n"
+        for cmd in self.lt:
+            str += self.indent(cmd.generatePythonCode(),4)
+
+        if len(self.lf) > 0:
+            str += "else: \n"
+            for cmd in self.lf:
+                str += self.indent(cmd.generatePythonCode(),4)
         return str
     
 

@@ -9,10 +9,18 @@ class CommandLeitura(AbstractCommand):
         self.var = var
     
 
+    def generateJavaCode(self):
+        code = ""
+        if self.var.type==IsiEnumType.NUMBER:
+            code = "nextDouble();\n"
+        else:
+            code = "nextLine();\n"
+        return  self.id +"= _key." + code
+    
     def generatePythonCode(self):
         code = ""
         if self.var.type==IsiEnumType.NUMBER:
-            code = "nextDouble()"
+            code = "input()\n"+self.id+" = float("+self.id+")"
         else:
-            code = "nextLine();"
-        return  self.id +"= _key." + code
+            code = "input()"
+        return  self.id +" = " + code
