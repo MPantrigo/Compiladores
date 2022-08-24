@@ -1,13 +1,16 @@
 programa
 
   numero a, b, c;
-  texto  t1;
+  texto  t1, t2;
 
   leia(a);
   leia(b);
   
   c = 10;
   a = 1 + 2 * 3 / b;
+
+  t1 = "Enquanto";
+  t2 = t1;
   
 
   se ( a > b ) {
@@ -24,6 +27,16 @@ programa
       }
 
   }
+
+  escolha (a) {
+      caso 10:
+         escreva(a);
+         break;
+      caso 20:
+         escreva("Eeee");
+      default:
+         escreva("Deu certo");
+  } 
   
 
 fimprog;

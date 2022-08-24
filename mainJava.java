@@ -11,6 +11,10 @@ public class MainClass{
 
         a = 1+2*3/b;
 
+        t1 = "Enquanto";
+
+        t2 = t1;
+
         if (c>b) {
             System.out.println(a);
             if (c>b) {
@@ -25,5 +29,14 @@ public class MainClass{
             }
         }
 
+        switch (a) {
+            case 10:
+                System.out.println(a);
+                break;
+            case 20:
+                System.out.println(a);
+            case default :
+                System.out.println(a);
+        }
     }
 }

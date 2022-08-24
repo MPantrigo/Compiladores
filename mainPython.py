@@ -7,6 +7,10 @@ def main():
 
     a = 1+2*3/b
 
+    t1 = "Enquanto"
+
+    t2 = t1
+
     if c>b:
         print(a)
         if c>b:
@@ -16,4 +20,12 @@ def main():
         a = a+1
         while b<c:
             b = b+1
+
+    match a:
+        case 10:
+            print(a)
+        case 20:
+            print(a)
+        case default :
+            print(a)
 

@@ -21,6 +21,7 @@ class IsiParserHelper:
         self.listaFalse = []
         self.listaTrue = []
         self.listaRepeticao = []
+        self.CasoDict = {}
 
     def verificaID(self, id):
         if not self.symbolTable.exists(id):

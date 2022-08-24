@@ -15,6 +15,7 @@ from AnalisadorLexicoPython.ast.CommandDecisao import CommandDecisao
 from AnalisadorLexicoPython.datastructures.IsiEnumType import IsiEnumType
 from AnalisadorLexicoPython.parser.IsiParserHelper import IsiParserHelper
 from AnalisadorLexicoPython.ast.CommandRepeticao import CommandRepeticao
+from AnalisadorLexicoPython.ast.CommandCaso import CommandCaso
 
 
 parseHelper = IsiParserHelper()
@@ -84,6 +85,7 @@ cmd		:  cmdleitura
  		|  cmdattrib
  		|  cmdselecao
         |  cmdrepeticao  
+        |  cmdcaso
 		;
 		
 cmdleitura	: 'leia' AP
@@ -107,10 +109,10 @@ parseHelper.stack[-1].append(cmd)
 			
 cmdescrita	: 'escreva' 
                  AP 
-                 ID { 
+                 (ID { 
 parseHelper.verificaID(self._input.LT(-1).text)
 parseHelper.writeID = self._input.LT(-1).text
-                     } 
+                     } | TEXT )
                  FP 
                  SC
                {
@@ -170,6 +172,54 @@ parseHelper.stack[-1].append(cmd)
                    }
             ;
 
+cmdcaso  :  'escolha' AP
+                      (ID {parseHelper.setUsedVariable(self._input.LT(-1).text)}| NUMBER | TEXT)    
+                      {
+parseHelper.exprID = self._input.LT(-1).text 
+                      }
+                      FP
+                      ACH
+                      (
+                    'caso' (ID {parseHelper.setUsedVariable(self._input.LT(-1).text)}| NUMBER | TEXT) 
+                    {
+parseHelper.exprDecision = self._input.LT(-1).text 
+                    }
+                    DP 
+                    { 
+curThread = []
+parseHelper.stack.append(curThread)
+                    }
+                    (cmd)+ 
+                    {
+caseThread = parseHelper.stack.pop()
+varBreak = False
+                    }
+                    ('break' {varBreak = True} SC)?
+                    {
+parseHelper.CasoDict[parseHelper.exprDecision] = (caseThread, varBreak)                  
+                    })+
+                      (
+                    'default' 
+                    DP
+                    { 
+curThread = []
+parseHelper.stack.append(curThread)
+                    }
+                    (cmd)+ 
+                    {
+parseHelper.listaFalse = parseHelper.stack.pop()
+                      }
+                      )?
+                      FCH
+                     {
+cmd = CommandCaso(parseHelper.exprID, parseHelper.CasoDict, parseHelper.listaFalse)
+parseHelper.stack[-1].append(cmd)
+                     }
+            ;
+
+
+
+
 cmdrepeticao  :  'enquanto' AP
                     ID    {
 parseHelper.exprDecision = self._input.LT(-1).text
@@ -195,11 +245,13 @@ parseHelper.stack[-1].append(cmd)
 			
 expr		: termo ( 
 	             OP  {
+parseHelper.isNumber(parseHelper.exprID)
 parseHelper.exprContent += self._input.LT(-1).text
 }
 	            termo
 	            )*
 			;
+
 			
 termo		: ID {     
 parseHelper.verificaID(self._input.LT(-1).text)
@@ -212,6 +264,11 @@ parseHelper.setUsedVariable(self._input.LT(-1).text)
               {
 parseHelper.isNumber(parseHelper.exprID)                
 parseHelper.exprContent += self._input.LT(-1).text
+              }
+            |
+              TEXT
+              {
+parseHelper.exprContent += self._input.LT(-1).text  
               }
 			;
 			
@@ -249,5 +306,11 @@ ID	: [a-z] ([a-z] | [A-Z] | [0-9])*
 	
 NUMBER	: [0-9]+ ('.' [0-9]+)?
 		;
+
+TEXT    : '"'.*?'"'
+        ;
 		
 WS	: (' ' | '\t' | '\n' | '\r') -> skip;
+
+DP      :   ':'
+        ;
