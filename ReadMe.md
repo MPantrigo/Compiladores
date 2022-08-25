@@ -1,7 +1,11 @@
 Bruno Salli Nogueira   - 11201721403
+
 Lucas Ribeiro da Silva - 21006316
+
 Matheus Pantrigo       - 11201721467
+
 Vitor Hadad            - 11202020373
+
 
 O transpilador criado implementou as seguintes features:
 
@@ -18,3 +22,9 @@ O transpilador criado implementou as seguintes features:
 
 O código foi fortemente baseado no código apresentado em aula e utilizamos o ANTLR 4 para geração da máquina de estados.
 Utilizamos a linguagem python para a implementação do transpilador
+
+
+
+Observação: Favor alterar o Path.Append no main.py para o seu work directory e alterar o caminho para o arquivo .isi para o caminho absoluto do arquivo desejado
+
+Link YT: https://www.youtube.com/watch?v=FGMzfDkIIs8

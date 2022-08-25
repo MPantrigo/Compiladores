@@ -147,6 +147,15 @@ class IsiLangListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by IsiLangParser#exprL.
+    def enterExprL(self, ctx:IsiLangParser.ExprLContext):
+        pass
+
+    # Exit a parse tree produced by IsiLangParser#exprL.
+    def exitExprL(self, ctx:IsiLangParser.ExprLContext):
+        pass
+
+
     # Enter a parse tree produced by IsiLangParser#termo.
     def enterTermo(self, ctx:IsiLangParser.TermoContext):
         pass

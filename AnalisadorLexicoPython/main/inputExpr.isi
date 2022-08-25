@@ -1,0 +1,33 @@
+programa
+
+  numero a, b, c, r, s, t;
+
+  a = 5;
+  b = 3;
+  c = 7;
+
+  r = a + b * c - 20/a;
+
+  se ( r == 22 ) {
+    escreva("Primeira expressao correta");
+  } senao {
+      escreva("Deu erro a primeira expressao");
+  }
+
+
+  s = a + b * c * a - 20/a; 
+  se ( s == 106 ) {
+    escreva("Segunda expressao correta");
+  } senao {
+      escreva("Deu erro a segunda expressao");
+  }
+
+  t = a * 2 + b * c * a - 102;
+  se ( t == 13 ) {
+    escreva("Terceira expressao correta");
+  } senao {
+      escreva("Deu erro a terceira expressao");
+  }
+
+
+fimprog;

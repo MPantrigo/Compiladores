@@ -5,7 +5,7 @@ def main():
     b = float(b)
     c = 10
 
-    a = 1+2*3/b
+    a = (1+2)*3/b
 
     t1 = "Enquanto"
 
@@ -25,7 +25,7 @@ def main():
         case 10:
             print(a)
         case 20:
-            print(a)
+            print("Eeee")
         case default :
-            print(a)
+            print("Deu certo")
 

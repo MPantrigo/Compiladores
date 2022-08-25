@@ -112,7 +112,8 @@ cmdescrita	: 'escreva'
                  (ID { 
 parseHelper.verificaID(self._input.LT(-1).text)
 parseHelper.writeID = self._input.LT(-1).text
-                     } | TEXT )
+parseHelper.setUsedVariable(parseHelper.writeID)
+                     } | TEXT {parseHelper.writeID = self._input.LT(-1).text} )
                  FP 
                  SC
                {
@@ -124,6 +125,7 @@ parseHelper.stack[-1].append(cmd)
 cmdattrib	:  ID { 
 parseHelper.verificaID(self._input.LT(-1).text)
 parseHelper.exprID = self._input.LT(-1).text
+parseHelper.setUsedVariable(parseHelper.exprID)
                    } 
                ATTR {parseHelper.exprContent = "" } 
                expr 
@@ -249,8 +251,11 @@ parseHelper.isNumber(parseHelper.exprID)
 parseHelper.exprContent += self._input.LT(-1).text
 }
 	            termo
-	            )*
+	            )* exprL | AP {parseHelper.exprContent += self._input.LT(-1).text} expr FP {parseHelper.exprContent += self._input.LT(-1).text} exprL
 			;
+exprL : OP {parseHelper.exprContent += self._input.LT(-1).text} expr exprL | 
+      ;
+
 
 			
 termo		: ID {     
@@ -284,6 +289,7 @@ SC	: ';'
 	
 OP	: '+' | '-' | '*' | '/'
 	;
+
 	
 ATTR : '='
 	 ;

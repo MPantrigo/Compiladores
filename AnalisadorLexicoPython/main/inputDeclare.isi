@@ -1,0 +1,10 @@
+programa
+
+numero a;
+
+a = 10;
+b = a * 4;
+
+escreva("b nao foi declarado");
+
+fimprog;

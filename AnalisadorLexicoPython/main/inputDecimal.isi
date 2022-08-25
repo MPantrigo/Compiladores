@@ -1,0 +1,10 @@
+programa
+
+numero a, b, c;
+
+a = 5;
+b = 3;
+c = 3.1415;
+escreva(c);
+
+fimprog;

@@ -1,0 +1,33 @@
+programa
+
+numero dia;
+
+leia (dia);
+
+escolha (dia) {
+    caso 1:
+        escreva("Segunda-feira");
+        break;
+    caso 2:
+        escreva("Terca-feira");
+        break;
+    caso 3:
+        escreva("Quarta-feira");
+        break;
+    caso 4:
+        escreva("Quinta-feira");
+        break;
+    caso 5:
+        escreva("Sexta-feira");
+        break;
+    caso 6:
+        escreva("Sabado");
+        break;
+    caso 7:
+        escreva("Domingo");
+        break;
+    default:
+        escreva("Nao eh um dia da semana");
+}
+
+fimprog;

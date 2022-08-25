@@ -9,7 +9,7 @@ public class MainClass{
 
         c = 10;
 
-        a = 1+2*3/b;
+        a = (1+2)*3/b;
 
         t1 = "Enquanto";
 
@@ -34,9 +34,9 @@ public class MainClass{
                 System.out.println(a);
                 break;
             case 20:
-                System.out.println(a);
+                System.out.println("Eeee");
             case default :
-                System.out.println(a);
+                System.out.println("Deu certo");
         }
     }
 }

@@ -1,0 +1,11 @@
+programa
+
+numero a, b, c, d;
+
+a = 10;
+b = 13;
+c = b / a;
+escreva(c);
+escreva("Variavel d nao foi utilizada");
+
+fimprog;
