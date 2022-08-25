@@ -20,7 +20,7 @@ programa
      }
   }
 
-  enquanto (a > b) {
+  enquanto (a < b) {
       a = a + 1;
       enquanto(b < c){
          b = b + 1;
