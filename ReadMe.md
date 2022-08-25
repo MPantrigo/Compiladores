@@ -23,7 +23,7 @@ O transpilador criado implementou as seguintes features:
 O código foi fortemente baseado no código apresentado em aula e utilizamos o ANTLR 4 para geração da máquina de estados.
 Utilizamos a linguagem python para a implementação do transpilador
 
-
+Projeto: /AnalisadorLexicoPython
 
 Observação: Favor alterar o Path.Append no main.py para o seu work directory e alterar o caminho para o arquivo .isi para o caminho absoluto do arquivo desejado
 
